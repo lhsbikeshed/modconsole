@@ -63,6 +63,22 @@ public class LaunchControl extends PanelSet {
      .moveTo(name)
      ;
      
+      cp5.addToggle("SpawnMissile")
+     .setPosition(360, 300)
+     .setSize(50, 50)
+     .setLabel("Spawn Training\r\nMissiles?")
+     .setValue(0.0f)
+     .moveTo(name)
+     ;
+     
+     cp5.addToggle("HighlightGate")
+     .setPosition(440, 300)
+     .setSize(50, 50)
+     .setLabel("Target\r\nGate?")
+     .setValue(0.0f)
+     .moveTo(name)
+     ;
+     
     
   }
   
@@ -88,6 +104,14 @@ public class LaunchControl extends PanelSet {
       oscP5.send(m, myRemoteLocation);
     } else if(theControlEvent.getName().equals("DockingClamp")){
       OscMessage m  = new OscMessage("/system/misc/dockingClamp");
+      m.add( (int)theControlEvent.getValue() );
+      oscP5.send(m, myRemoteLocation);
+    } else if(theControlEvent.getName().equals("SpawnMissile")){
+      OscMessage m  = new OscMessage("/scene/launchland/trainingMissiles");
+      m.add( (int)theControlEvent.getValue() );
+      oscP5.send(m, myRemoteLocation);
+    } else if(theControlEvent.getName().equals("HighlightGate")){
+      OscMessage m  = new OscMessage("/scene/launchland/targetGate");
       m.add( (int)theControlEvent.getValue() );
       oscP5.send(m, myRemoteLocation);
     }
