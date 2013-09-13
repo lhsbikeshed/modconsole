@@ -1,0 +1,56 @@
+/* controls for the hyper scene */
+
+public class HyperControls extends PanelSet {
+  
+  int secondsUntilExit = 0;
+  boolean exiting = false;
+  boolean failedExit = false;
+  
+  
+  public HyperControls(String name, PApplet parent, OscP5 p5, ControlP5 cp5){
+    super(name, parent, p5, cp5);
+  }
+  
+  public void draw(){
+  
+  }
+  
+  public void reset(){
+    exiting = false;
+    secondsUntilExit = 0;
+    failedExit = false;
+  }
+  
+  
+  public void initGui(){
+  
+    cp5.addTextlabel(name+"label")
+      .setText("SCRIPT ----------------\r\n1. Prompt engineer to look at screen and follow instructions \r\n2. IF WARNING OCCURS tell them were bailing out of jump early and to expect a rough ride")
+      .setPosition(12,50)
+      .setColorValue(0xffffff00)
+      .setFont(createFont("Georgia",15))
+      .moveTo(name)
+      ;
+  
+  }
+  
+  public void oscMessage(OscMessage msg){
+    /*
+      /warpscene/failjump    x = seconds until exit
+      /warpscene/exitjump
+    */
+    if(msg.checkAddrPattern("/warpscene/failjump")){
+      exiting = true;
+      failedExit = true;
+      secondsUntilExit = msg.get(0).intValue();
+    } else if (msg.checkAddrPattern("/warpscene/exitjump")){
+      exiting = true;
+      failedExit = false;
+      secondsUntilExit = msg.get(0).intValue();
+    }
+      
+  
+  }
+  public void controlEvent(ControlEvent theControlEvent) {}
+  
+}
