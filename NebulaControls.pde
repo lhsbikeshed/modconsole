@@ -5,41 +5,27 @@
 public class NebulaControls extends PanelSet {
 
   String[] bangList = { 
-    "Spawn Lightning Storm", "start distress"
+    "Lightning\r\nStrike", "Blow Up Gate", "start\r\ndistress\r\nsignal", 
+    "Reposition\r\nVan", "Spawn\r\nAnomaly"
   };
   String[] bangMapping = {
-    "/scene/nebula/spawnLightning", "/scene/nebula/startPuzzle"
+    "/scene/nebula/spawnLightning", "/scene/nebula/blowUpGate", "/scene/nebula/startPuzzle", 
+    "/scene/nebula/repositionVan", "/scene/nebula/spawnAnomaly"
   };
   /* toggle buttons and their osc messages */
   String[] toggleList = { 
-    "Storms"
+    "dummy"
   };
   String[] toggleMapping = {
-    "/scene/nebula/stormSpawnState"
+    "/dummy"
   };
 
-  Knob stormRateKnob;
 
 
   public NebulaControls(String name, PApplet parent, OscP5 p5, ControlP5 cp5) {
     super(name, parent, p5, cp5);
 
 
-    stormRateKnob = cp5.addKnob("StormRate")
-      .setRange(1, 10)
-        .setValue(1)
-          .setPosition(430, 210)
-            .setRadius(50)
-              .setNumberOfTickMarks(10)
-                .setTickMarkLength(1)
-                  .snapToTickMarks(true)
-                    .setColorForeground(color(255))
-                      .setColorBackground(color(0, 160, 100))
-                        .setColorActive(color(255, 255, 0))
-                          .setDragDirection(Knob.HORIZONTAL)
-                            .moveTo(name)   
-                              ;
-                              
                               
      cp5.addNumberbox("Disk1")
      .setPosition(780,120)
@@ -156,10 +142,7 @@ public class NebulaControls extends PanelSet {
     try {
       Knob b = (Knob)theControlEvent.getController();
       
-      OscMessage msg = new OscMessage("/scene/nebula/stormRate");
-
-      msg.add(b.value());
-      oscP5.send(msg, myRemoteLocation);
+     
     }
     catch (ClassCastException e) {
     }
