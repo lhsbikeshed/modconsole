@@ -28,13 +28,15 @@ public class ShipStatePanel extends PanelSet {
   /* toggle buttons and their osc messages */
   String[] toggleList = { "Reactor\r\nState", "Propulsion\r\nState", "JumpState", "ShipLight",  "BlastShield", "Enable\r\nautopilot",
                           "Tactical power", "Engineer power", "pilot Power", "comms power",
-                          "Undercarriage", "Engineer\r\nFailures?"
+                          "Undercarriage", "Engineer\r\nFailures?", "Grappling\r\nHook\r\nArmed?"
 
                         };
   String[] toggleMapping = {"/system/reactor/setstate", "/system/propulsion/state", "/system/jump/state", "/system/misc/extlight",  "/system/misc/blastShield", "/system/control/controlState",
-                            "/tactical/powerState", "/engineer/powerState", "/pilot/powerState","/comms/powerState", "/system/undercarriage/state", "/system/powerManagement/failureState"};
+                            "/tactical/powerState", "/engineer/powerState", "/pilot/powerState","/comms/powerState", "/system/undercarriage/state", "/system/powerManagement/failureState",
+                            "/control/grapplingHookState"  
+                        };
   boolean[] defaultStates = {false, false, false, false, true, false,true,
-                             false, false, false, false, true
+                             false, false, false, false, true, false
                             };
   String[] bgNames = {"Instructor", "Warzone Ship", "aliens"};
   
@@ -155,7 +157,7 @@ public class ShipStatePanel extends PanelSet {
      int cy = 600;
      for(int i = 0; i < toggleList.length; i++){
        // system toggles
-       cx += 80;
+       cx += 70;
        if(cx > 960){
          cx = 9;
          cy += 50;
