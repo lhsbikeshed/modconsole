@@ -62,6 +62,14 @@ public class NebulaControls extends PanelSet {
      .moveTo(name)        
      ;
      
+     cp5.addBang("InsertDisk")
+     .setPosition(780, 260)
+     .setSize(50, 20)
+     .setTriggerEvent(Bang.RELEASE)
+     .setLabel("Insert Disk")
+     .moveTo(name)        
+     ;
+     
   }
 
   public void draw() {
@@ -134,6 +142,10 @@ public class NebulaControls extends PanelSet {
         msg.add( (int)(cp5.get(Numberbox.class,"Disk3").getValue()) );
         oscP5.send(msg, myRemoteLocation);
         
+      } else if(name.equals("InsertDisk")){
+        OscMessage msg = new OscMessage("/scene/nebula/diskInsert");
+        msg.add(1);
+        oscP5.send(msg, myRemoteLocation);
       }
     } 
     catch (ClassCastException e) {
