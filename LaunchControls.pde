@@ -18,7 +18,7 @@ public class LaunchControl extends PanelSet {
   
   public void initGui(){
     cp5.addTextlabel("label")
-      .setText("SCRIPT ----------------\r\n1. captain tells the crew to start ship up and open blast door\r\n2. once started hit the 'start launch sequence' button, this puts them in the launch tube\r\n3. turn off gravity and release the clamp\r\n4. open the bay doors when they have requested clearance\r\nJOB DONE!")
+      .setText("SCRIPT ----------------\r\n1. captain tells the crew to start ship up and open blast door\r\n2. once started hit the 'start launch sequence' button, this puts them in the launch tube\r\n3. turn off gravity and release the clamp\r\n4. open the bay doors\r\n5.Autopilot the ship out of the base and park outside the door\r\n6.Wait for captain to ask for training missiles then turn them on\r\n7.When the training is done hit 'target gate'\r\nJOB DONE!")
       
       
       .setPosition(12,50)

@@ -23,8 +23,10 @@ public class ShipStatePanel extends PanelSet {
   DropdownList bgList, lightingList;
   Slider chromaSlider, lowerSlider, upperSlider, thSlider;
   
-  String[] bangList = { "StartJump", "DamageShiP", "smoke", "Reactor Failure", "Self Destruct", "stop SD"};
-  String[] bangMapping = {"/system/jump/startJump","/ship/damage", "/lulz/smoke", "/system/reactor/fail", "/system/reactor/overload", "/system/reactor/overloadinterrupt"};
+  String[] bangList = { "Start\r\nJump", "Damage\r\nShip", "smoke", "Reactor\r\nFailure", "Self\r\nDestruct", "stop SD", "Fix Stuck\r\nBoot?"};
+  String[] bangMapping =  {"/system/jump/startJump","/ship/damage", "/lulz/smoke", "/system/reactor/fail", "/system/reactor/overload", "/system/reactor/overloadinterrupt",
+                            "/system/boot/justFuckingBoot"
+                          };
   /* toggle buttons and their osc messages */
   String[] toggleList = { "Reactor\r\nState", "Propulsion\r\nState", "JumpState", "ShipLight",  "BlastShield", "Enable\r\nautopilot",
                           "Tactical power", "Engineer power", "pilot Power", "comms power",
@@ -147,8 +149,8 @@ public class ShipStatePanel extends PanelSet {
      //bang list
      for (int i = 0; i < bangList.length; i++){
        cp5.addBang(bangList[i])
-         .setPosition(40 + i * 75, 500)
-         .setSize(50, 50)
+         .setPosition(20 + i * 55, 500)
+         .setSize(35, 35)
          .setTriggerEvent(Bang.RELEASE)
          .setLabel(bangList[i])     
          ;
@@ -158,8 +160,8 @@ public class ShipStatePanel extends PanelSet {
      for(int i = 0; i < toggleList.length; i++){
        // system toggles
        cx += 70;
-       if(cx > 960){
-         cx = 9;
+       if(cx > 500){
+         cx = 30;
          cy += 50;
        }
        cp5.addToggle(toggleList[i])
@@ -208,20 +210,23 @@ public class ShipStatePanel extends PanelSet {
     joy.update();
     //y=380
     textFont(font, 12);
+    pushMatrix();
+    translate(10, 800);
     text("reactor On?: " + reactorState, 128,670);
     text("Can jump? : " + canJump, 128, 690);
     
-    text("Hull Health: " + hull, 350, 670);
-    text("o2 Level: " + oxygenLevel, 350, 690);
-    text("Jump Charge: " + jumpCharge, 350, 710);
-    text("Undercarriage: " + undercarriageStrings[undercarriageState], 350, 730);
-    text("can clamp be used: " + canClampBeEnabled, 350, 750);
+    text("Hull Health: " + hull, 0, 0);
+    text("o2 Level: " + oxygenLevel, 0, 20);
+    text("Jump Charge: " + jumpCharge, 0, 40);
+    text("Undercarriage: " + undercarriageStrings[undercarriageState], 0, 60);
+    text("can clamp be used: " + canClampBeEnabled, 0, 80);
     if(failureCount >= 6){
       fill(255,0,0);
     } else {
       fill(255,255,255);
     }
-    text("failed reactor systems: " + failureCount, 600,670);
+    text("failed reactor systems: " + failureCount, 300,0);
+    popMatrix();
   }
   public void oscMessage(OscMessage msg){
   
