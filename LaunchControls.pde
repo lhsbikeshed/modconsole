@@ -63,6 +63,14 @@ public class LaunchControl extends PanelSet {
      .moveTo(name)
      ;
      
+      cp5.addBang("LaunchOtherShip")
+     .setPosition(200, 230)
+     .setSize(50, 50)
+     .setLabel("Prepare/launch\r\nother ship")
+     .setValue(1.0f)
+     .moveTo(name)
+     ;
+     
       cp5.addToggle("SpawnMissile")
      .setPosition(360, 300)
      .setSize(50, 50)
@@ -113,6 +121,10 @@ public class LaunchControl extends PanelSet {
     } else if(theControlEvent.getName().equals("HighlightGate")){
       OscMessage m  = new OscMessage("/scene/launchland/targetGate");
       m.add( (int)theControlEvent.getValue() );
+      oscP5.send(m, myRemoteLocation);
+    } else if(theControlEvent.getName().equals("LaunchOtherShip")){
+      OscMessage m  = new OscMessage("/scene/launchland/launchOtherShip");
+     
       oscP5.send(m, myRemoteLocation);
     }
 
