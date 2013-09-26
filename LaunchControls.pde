@@ -77,6 +77,13 @@ public class LaunchControl extends PanelSet {
      .setValue(1.0f)
      .moveTo(name)
      ;
+      cp5.addBang("otherShipHyperspace")
+     .setPosition(360, 230)
+     .setSize(50, 50)
+     .setLabel("npc Hyperspace")
+     .setValue(1.0f)
+     .moveTo(name)
+     ;
      
      
       cp5.addToggle("SpawnMissile")
@@ -140,7 +147,14 @@ public class LaunchControl extends PanelSet {
       OscMessage m  = new OscMessage("/scene/launchland/otherShipToGate");
      
       oscP5.send(m, myRemoteLocation);
+    } else if(theControlEvent.getName().equals("otherShipHyperspace")){
+     
+      OscMessage m  = new OscMessage("/scene/launchland/otherShipHyperspace");
+     
+      oscP5.send(m, myRemoteLocation);
     }
+    
+    
 
   
   
