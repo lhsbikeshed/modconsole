@@ -135,6 +135,8 @@ void oscEvent(OscMessage theOscMessage) {
       lightReset();
     } else if (val == 4){
       setLightMode(0);
+    } else {
+      setLightMode(0);
     }
 
     return;
@@ -160,6 +162,7 @@ void oscEvent(OscMessage theOscMessage) {
   } 
   else if (theOscMessage.checkAddrPattern("/game/reset") == true) {
     //reset the entire game
+    resetScreens();
   } else if (theOscMessage.checkAddrPattern("/radar/update") == true) {
     radarPanel.oscMessage(theOscMessage);
   
@@ -254,6 +257,12 @@ void keyPressed(){
 
 void keyReleased(){
   jp.keyReleased(key);
+}
+
+void resetScreens(){
+  for(PanelSet d : displayList){
+    d.reset();
+  }
 }
 
 /* change this scene to show the altitude and predicted death time*/

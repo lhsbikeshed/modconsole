@@ -290,13 +290,13 @@ public class ShipStatePanel extends PanelSet {
         setLightMode(ind);
       } else if (name.equals("VideoCallStart")){
         int bg = (int)bgList.getValue();
-        OscMessage msg = new OscMessage("/display/captain/incomingCall");
+        OscMessage msg = new OscMessage("/clientscreen/CommsStation/incomingCall");
           
-        msg.add(bg);
+       // msg.add(bg);
         oscP5.send(msg, myRemoteLocation);
         
       } else if (name.equals("VideoCallEnd")){
-        OscMessage msg = new OscMessage("/display/captain/hangup");
+        OscMessage msg = new OscMessage("/clientscreen/CommsStation/hangUp");
         oscP5.send(msg, myRemoteLocation);
       }
       

@@ -20,7 +20,8 @@ public class NebulaControls extends PanelSet {
     "/dummy"
   };
 
-
+  boolean shipHasLeft = false;
+  float sigStrength = 0.0f;
 
   public NebulaControls(String name, PApplet parent, OscP5 p5, ControlP5 cp5) {
     super(name, parent, p5, cp5);
@@ -73,6 +74,13 @@ public class NebulaControls extends PanelSet {
   }
 
   public void draw() {
+    textFont(font,14);
+    if(shipHasLeft){
+      
+      text("Dead ship has left the building\r\nCall the players and ask wtf", 440,116);
+    }
+    text ("sig strength = " + sigStrength, 440, 140);
+    
   }
 
   public void initGui() {
@@ -96,8 +104,19 @@ public class NebulaControls extends PanelSet {
               ;
     }
   }
+  
+  public void reset(){
+    shipHasLeft = false;
+  }
 
   public void oscMessage(OscMessage msg) {
+    
+    
+      if(msg.checkAddrPattern("/scene/nebulascene/shipHasLeft")){
+        shipHasLeft = true;
+      } else if(msg.checkAddrPattern("/clientscreen/TacticalStation/signalStrength")){
+        sigStrength = msg.get(0).floatValue();
+      }
   }
   public void controlEvent(ControlEvent theControlEvent) {
     String name = theControlEvent.getName();

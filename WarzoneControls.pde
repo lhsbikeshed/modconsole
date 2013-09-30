@@ -41,6 +41,11 @@ public class WarzoneControls extends PanelSet {
     text("missiles left: " + outstandingMissiles, 140, 120);
   }
   
+  public void reset(){
+    currentExcuse = -1;
+  
+    beamFailTime = 0;
+  }
   
   public void initGui(){
      
