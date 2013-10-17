@@ -55,6 +55,12 @@ public class LandingControls extends PanelSet {
      .setLabel("Docking\r\nClamp")
      .setValue(1.0f)
      .moveTo(name);
+     
+      cp5.addBang("GameWin")
+     .setPosition(360, 300)
+     .setSize(50, 50)
+     .setLabel("Win Game")
+     .moveTo(name);
   }
   
   
@@ -84,6 +90,9 @@ public class LandingControls extends PanelSet {
       oscP5.send(m, myRemoteLocation);
     } else if(theControlEvent.getName().equals("StartDock")){
       OscMessage m  = new OscMessage("/scene/launchland/startDock");
+      oscP5.send(m, myRemoteLocation);
+    } else if(theControlEvent.getName().equals("GameWin")){
+      OscMessage m  = new OscMessage("/game/gameWin");
       oscP5.send(m, myRemoteLocation);
     }
 
