@@ -181,7 +181,7 @@ void oscEvent(OscMessage theOscMessage) {
     
   
 
-  }else if (theOscMessage.checkAddrPattern("/ship/stats") == true) {  
+  } else if (theOscMessage.checkAddrPattern("/ship/stats") == true) {  
   
     
     float newHull = theOscMessage.get(2).floatValue();
