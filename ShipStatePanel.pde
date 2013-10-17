@@ -16,8 +16,7 @@ public class ShipStatePanel extends PanelSet {
   public boolean canJump = false;
   public boolean reactorOn = false;
   
-  public boolean joystickEnabled = false;
-  Joystick joy;
+
   
   //GUI crap
   DropdownList bgList, lightingList;
@@ -48,11 +47,10 @@ public class ShipStatePanel extends PanelSet {
   boolean ready = false;
   PApplet parent;
   
-  public ShipStatePanel(String name, PApplet parent, OscP5 p5, ControlP5 cp5, boolean useStick){
+  public ShipStatePanel(String name, PApplet parent, OscP5 p5, ControlP5 cp5){
     super(name, parent, p5, cp5);
     this.parent = parent;
-    joy = new Joystick(p5, parent, useStick);
-    joy.setEnabled(false);
+   
   }
   
   public void initGui(){
@@ -250,15 +248,7 @@ public class ShipStatePanel extends PanelSet {
           msg.add(state);
           oscP5.send(msg, myRemoteLocation);
           
-          if(toggleList[i].equals("Enable\r\nautopilot")){
-            if(state == 1){
-              println("turning stick on");
-              joy.setEnabled(true);
-            } else {
-              println("Stick off");
-              joy.setEnabled(false);
-            }
-          }
+          
         }      
       } 
       
