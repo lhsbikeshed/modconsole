@@ -224,6 +224,13 @@ void oscEvent(OscMessage theOscMessage) {
       println("Stick off");
       joy.setEnabled(false);
     }
+  } 
+  else if (theOscMessage.checkAddrPattern("/system/effect/lightingMode")) {
+    int mode = theOscMessage.get(0).intValue();
+    setLightMode(mode);
+  } else if (theOscMessage.checkAddrPattern("/system/effect/lightingPower")) {
+    int mode = theOscMessage.get(0).intValue();
+    setLightState(mode == 1 ? true : false);
   }
   else {
     displayList[currentTab].oscMessage(theOscMessage);
@@ -267,7 +274,7 @@ void setLightMode(int mode) {
   };
 
   if (serialEnabled) {
-    if (mode >= 0 && mode < 5) {
+    if (mode >= 0 && mode < lightMap.length) {
       serialPort.write(lightMap[mode]);
     }
   }  
