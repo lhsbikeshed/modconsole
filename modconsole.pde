@@ -41,8 +41,10 @@ void setup() {
   jp = new JoyPanel(500, 390, 200, 200);
 
   frameRate(25);
-  serialPort = new Serial(this, "COM3", 9600);
-
+  if(serialEnabled){
+    serialPort = new Serial(this, "COM3", 9600);
+  }
+  
   cp5 = new ControlP5(this);
   oscP5 = new OscP5(this, 12005);
   myRemoteLocation = new NetAddress(serverIP, 12000);
@@ -228,11 +230,21 @@ void oscEvent(OscMessage theOscMessage) {
   else if (theOscMessage.checkAddrPattern("/system/effect/lightingMode")) {
     int mode = theOscMessage.get(0).intValue();
     setLightMode(mode);
+    
   } else if (theOscMessage.checkAddrPattern("/system/effect/lightingPower")) {
     int mode = theOscMessage.get(0).intValue();
     setLightState(mode == 1 ? true : false);
-  }
-  else {
+    println("light");
+  } else if(theOscMessage.checkAddrPattern("/system/effect/airlockLight")){
+    int m = theOscMessage.get(0).intValue();
+    if(serialEnabled){
+      if(m == 0){
+        serialPort.write("A");
+      } else {
+        serialPort.write("a");
+      }
+    }
+  } else {
     displayList[currentTab].oscMessage(theOscMessage);
   }
 }
