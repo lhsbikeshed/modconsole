@@ -37,6 +37,8 @@ void setup() {
   jp = new JoyPanel(500,390,200,200);
   
   frameRate(25);
+  
+  if (serialEnabled)
    serialPort = new Serial(this, "COM3", 9600);
   
   cp5 = new ControlP5(this);
