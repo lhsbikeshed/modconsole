@@ -104,21 +104,36 @@ public class LaunchControl extends PanelSet {
 
     /* player names */
     cp5.addTextfield("PilotName")
-      .setPosition(680, 135)
+      .setPosition(680, 80)
         .setSize(200, 30)
           .setFont(createFont("arial", 12))
             .setAutoClear(false)
               .moveTo(name)
                 ;
     cp5.addTextfield("TacticalName")
-      .setPosition(680, 195)
+      .setPosition(680, 130)
         .setSize(200, 30)
           .setFont(createFont("arial", 12))
             .setAutoClear(false)
               .moveTo(name)
                 ;
     cp5.addTextfield("EngineerName")
-      .setPosition(680, 255)
+      .setPosition(680, 180)
+        .setSize(200, 30)
+          .setFont(createFont("arial", 12))
+            .setAutoClear(false)
+              .moveTo(name)
+                ;
+
+    cp5.addTextfield("CaptainName")
+      .setPosition(680, 230)
+        .setSize(200, 30)
+          .setFont(createFont("arial", 12))
+            .setAutoClear(false)
+              .moveTo(name)
+                ;
+    cp5.addTextfield("GmName")
+      .setPosition(680, 280)
         .setSize(200, 30)
           .setFont(createFont("arial", 12))
             .setAutoClear(false)
@@ -126,7 +141,7 @@ public class LaunchControl extends PanelSet {
                 ;
 
     cp5.addBang("SetNames")
-      .setPosition(681, 302)
+      .setPosition(900, 302)
         .setSize(50, 50)
           .setTriggerEvent(Bang.RELEASE)
             .setLabel("Set")
@@ -190,11 +205,12 @@ public class LaunchControl extends PanelSet {
       oscP5.send(m, myRemoteLocation);
     } 
     else if (theControlEvent.getName().equals("SetNames")) {
-      OscMessage m = new OscMessage("/game/params/setNames");
+      OscMessage m = new OscMessage("/game/setNames");
       m.add(cp5.get(Textfield.class, "PilotName").getText());
       m.add(cp5.get(Textfield.class, "TacticalName").getText());
-
       m.add(cp5.get(Textfield.class, "EngineerName").getText());
+      m.add(cp5.get(Textfield.class, "CaptainName").getText());
+      m.add(cp5.get(Textfield.class, "GmName").getText());
       oscP5.send(m, myRemoteLocation);
     }
   }
