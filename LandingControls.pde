@@ -61,6 +61,12 @@ public class LandingControls extends PanelSet {
      .setSize(50, 50)
      .setLabel("Win Game")
      .moveTo(name);
+     
+      cp5.addToggle("DockingComp")
+     .setPosition(440, 300)
+     .setSize(50, 50)
+     .setLabel("DockingComp")     
+     .moveTo(name);
   }
   
   
@@ -93,6 +99,10 @@ public class LandingControls extends PanelSet {
       oscP5.send(m, myRemoteLocation);
     } else if(theControlEvent.getName().equals("GameWin")){
       OscMessage m  = new OscMessage("/game/gameWin");
+      oscP5.send(m, myRemoteLocation);
+    } else if(theControlEvent.getName().equals("DockingComp")){
+      OscMessage m  = new OscMessage("/scene/launchland/dockingCompState");
+      m.add( (int)theControlEvent.getValue() );
       oscP5.send(m, myRemoteLocation);
     }
 
