@@ -63,9 +63,21 @@ public class LandingControls extends PanelSet {
      .moveTo(name);
      
       cp5.addToggle("DockingComp")
-     .setPosition(440, 300)
+     .setPosition(40, 220)
      .setSize(50, 50)
      .setLabel("DockingComp")     
+     .moveTo(name);
+     
+     cp5.addBang("AutoDock")
+     .setPosition(120, 220)
+     .setSize(50, 50)
+     .setLabel("AutoDock")     
+     .moveTo(name);
+     
+     cp5.addBang("StopAutoDock")
+     .setPosition(180, 220)
+     .setSize(50, 50)
+     .setLabel("Stop\nAutoDock")     
      .moveTo(name);
   }
   
@@ -104,8 +116,15 @@ public class LandingControls extends PanelSet {
       OscMessage m  = new OscMessage("/scene/launchland/dockingCompState");
       m.add( (int)theControlEvent.getValue() );
       oscP5.send(m, myRemoteLocation);
+    } else if(theControlEvent.getName().equals("AutoDock")){
+      OscMessage m  = new OscMessage("/scene/launchland/autodock");
+    
+      oscP5.send(m, myRemoteLocation);
+    } else if(theControlEvent.getName().equals("StopAutoDock")){
+      OscMessage m  = new OscMessage("/scene/launchland/stopautodock");
+    
+      oscP5.send(m, myRemoteLocation);
     }
-
   
   }
   
