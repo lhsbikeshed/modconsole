@@ -154,6 +154,18 @@ public class ShipStatePanel extends PanelSet {
           .setLabel("light power")
             ;
 
+    cp5.addToggle("SeatbeltLight")
+      .setPosition(750, 540)
+        .setSize(50, 25)
+          .setLabel("seatbelts")
+            ;
+
+    cp5.addToggle("PrayLight")
+      .setPosition(840, 540)
+        .setSize(50, 25)
+          .setLabel("pray Light")
+            ;
+
     //bang list
     for (int i = 0; i < bangList.length; i++) {
       cp5.addBang(bangList[i])
@@ -269,6 +281,22 @@ public class ShipStatePanel extends PanelSet {
         msg.add(state == true ? 1 : 0);
         oscP5.send(msg, myRemoteLocation);
       }
+      if (name.equals("PrayLight")) {
+        boolean state = (int)theControlEvent.getValue() == 1 ? true : false;
+        //setLightState(state);
+        OscMessage msg = new OscMessage("/system/effect/prayLight");
+
+        msg.add(state == true ? 1 : 0);
+        oscP5.send(msg, myRemoteLocation);
+      }
+      if (name.equals("SeatbeltLight")) {
+        boolean state = (int)theControlEvent.getValue() == 1 ? true : false;
+        //setLightState(state);
+        OscMessage msg = new OscMessage("/system/effect/seatbeltLight");
+
+        msg.add(state == true ? 1 : 0);
+        oscP5.send(msg, myRemoteLocation);
+      }
     } 
     catch (ClassCastException e) {
     }
@@ -337,5 +365,4 @@ public class ShipStatePanel extends PanelSet {
     }
   }
 }
-
 

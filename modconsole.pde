@@ -7,8 +7,8 @@ import netP5.*;
 
 
 //change these
-boolean serialEnabled = false;
-boolean useXboxController = false;
+boolean serialEnabled = true;
+boolean useXboxController = true;
 //BUT NOTHING PAST HERE
 
 OscP5 oscP5;
@@ -41,10 +41,10 @@ void setup() {
   jp = new JoyPanel(500, 390, 200, 200);
 
   frameRate(25);
-  if(serialEnabled){
-    serialPort = new Serial(this, "COM3", 9600);
+  if (serialEnabled) {
+    serialPort = new Serial(this, "COM36", 9600);
   }
-  
+
   cp5 = new ControlP5(this);
   oscP5 = new OscP5(this, 12005);
   myRemoteLocation = new NetAddress(serverIP, 12000);
@@ -230,21 +230,45 @@ void oscEvent(OscMessage theOscMessage) {
   else if (theOscMessage.checkAddrPattern("/system/effect/lightingMode")) {
     int mode = theOscMessage.get(0).intValue();
     setLightMode(mode);
-    
-  } else if (theOscMessage.checkAddrPattern("/system/effect/lightingPower")) {
+  } 
+  else if (theOscMessage.checkAddrPattern("/system/effect/lightingPower")) {
     int mode = theOscMessage.get(0).intValue();
     setLightState(mode == 1 ? true : false);
     println("light");
-  } else if(theOscMessage.checkAddrPattern("/system/effect/airlockLight")){
-    int m = theOscMessage.get(0).intValue();
+  }
+  else if (theOscMessage.checkAddrPattern("/system/effect/seatbeltLight")) {
+    int mode = theOscMessage.get(0).intValue();
+    
     if(serialEnabled){
-      if(m == 0){
-        serialPort.write("A");
+      if(mode == 1){
+        serialPort.write('S');
       } else {
+        serialPort.write('s');
+      }
+    }
+  }
+  else if (theOscMessage.checkAddrPattern("/system/effect/prayLight")) {
+    int mode = theOscMessage.get(0).intValue();
+    if(serialEnabled){
+      if(mode == 1){
+        serialPort.write('P');
+      } else {
+        serialPort.write('p');
+      }
+    }
+  } 
+  else if (theOscMessage.checkAddrPattern("/system/effect/airlockLight")) {
+    int m = theOscMessage.get(0).intValue();
+    if (serialEnabled) {
+      if (m == 0) {
+        serialPort.write("A");
+      } 
+      else {
         serialPort.write("a");
       }
     }
-  } else {
+  } 
+  else {
     displayList[currentTab].oscMessage(theOscMessage);
   }
 }
