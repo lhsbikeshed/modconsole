@@ -7,8 +7,8 @@ import netP5.*;
 
 
 //change these
-boolean serialEnabled = true;
-boolean useXboxController = true;
+boolean serialEnabled = false;
+boolean useXboxController = false;
 //BUT NOTHING PAST HERE
 
 OscP5 oscP5;
@@ -270,6 +270,9 @@ void oscEvent(OscMessage theOscMessage) {
   } 
   else {
     displayList[currentTab].oscMessage(theOscMessage);
+  }
+  if(sPanel != null){
+    sPanel.oscMessage(theOscMessage);
   }
 }
 

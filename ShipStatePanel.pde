@@ -18,6 +18,9 @@ public class ShipStatePanel extends PanelSet {
   public boolean canJump = false;
   public boolean reactorOn = false;
 
+  String incomingCallFreq = "";
+  boolean incomingCall = false;
+
 
 
   //GUI crap
@@ -45,9 +48,6 @@ public class ShipStatePanel extends PanelSet {
   boolean[] defaultStates = {
     false, false, false, false, true, false, true, 
     false, false, false, false, true, false
-  };
-  String[] bgNames = {
-    "Instructor", "Warzone Ship", "aliens"
   };
 
   Knob engineerDiffKnob;
@@ -83,46 +83,14 @@ public class ShipStatePanel extends PanelSet {
           .setTriggerEvent(Bang.RELEASE)
             .setLabel("End Call")     
               ;
-    chromaSlider = cp5.addSlider("chroma")
-      .setPosition(150, 413)
-        .setRange(0, 255)
-          .setLabel("Hue Key")
-            .setSize(200, 10)
-              ;
-    upperSlider = cp5.addSlider("threshTop")
-      .setPosition(150, 433)
-        .setRange(0, 255)
-          .setLabel("Sat. Threshold")
-            .setSize(200, 10)
-              ;
-    lowerSlider = cp5.addSlider("threshBot")
-      .setPosition(150, 453)
-        .setRange(0, 255)
-          .setLabel("Sat Key")
-            .setSize(200, 10)
-              ;
-    thSlider = cp5.addSlider("threshSlider")
-      .setPosition(150, 473)
-        .setRange(0, 255)
-          .setLabel("Hue Threshold")
-            .setSize(200, 10)
+
+    cp5.addBang("VideoCallAnswer")
+      .setPosition(150, 400)
+        .setSize(40, 50)
+          .setTriggerEvent(Bang.RELEASE)
+            .setLabel("ANSWER")     
               ;
 
-
-
-    // Backgrounds for vid calling
-    bgList = cp5.addDropdownList("Video Call background")
-      .setPosition(140, 410)
-        .setSize(120, 120)
-          .setItemHeight(20)
-            .setBarHeight(20)
-              .setColorActive(color(0))
-                .setColorForeground(color(255, 100, 0))
-                  ;
-
-    for (int i = 0; i < bgNames.length; i++) {
-      ListBoxItem lbi = bgList.addItem(bgNames[i], i);
-    }
 
     /* interior lighting control 
      char[] lightMap = {'i', 'w', 'r', 'b'}; */
@@ -248,8 +216,22 @@ public class ShipStatePanel extends PanelSet {
     }
     text("failed reactor systems: " + failureCount, 300, 0);
     popMatrix();
+
+    if (incomingCall) {
+      text("Incoming Call: " + incomingCallFreq + "Hz", 190, 431);
+    }
   }
+
+
   public void oscMessage(OscMessage msg) {
+
+    if (msg.checkAddrPattern("/display/captain/dialRequest")) {
+      incomingCall = true;
+      incomingCallFreq = msg.get(0).stringValue();
+    } 
+    else if (msg.checkAddrPattern("/display/captain/dialNoResponse")) {
+      incomingCall = false;
+    }
   }
 
   public void controlEvent(ControlEvent theControlEvent) {
@@ -327,31 +309,26 @@ public class ShipStatePanel extends PanelSet {
         oscP5.send(msg, myRemoteLocation);
       } 
       else if (name.equals("VideoCallStart")) {
-        int bg = (int)bgList.getValue();
+       
         OscMessage msg = new OscMessage("/clientscreen/CommsStation/incomingCall");
 
-        // msg.add(bg);
+        msg.add(0);  //0 means incoming
         oscP5.send(msg, myRemoteLocation);
       } 
       else if (name.equals("VideoCallEnd")) {
         OscMessage msg = new OscMessage("/clientscreen/CommsStation/hangUp");
+        oscP5.send(msg, myRemoteLocation);
+      } else if (name.equals("VideoCallAnswer")){
+        OscMessage msg = new OscMessage("/clientscreen/CommsStation/incomingCall");
+
+        msg.add(1); //1 means it was a response, show the "connecting screen"
         oscP5.send(msg, myRemoteLocation);
       }
     } 
     catch (ClassCastException e) {
     }
 
-    try {
-      Slider s = (Slider)theControlEvent.getController();
-      OscMessage msg = new OscMessage("/display/captain/chromaparams");
-      msg.add((int)chromaSlider.getValue()); //r
-      msg.add((int)lowerSlider.getValue());  //g
-      msg.add((int)upperSlider.getValue());  //b
-      msg.add((int)thSlider.getValue());
-      oscP5.send(msg, myRemoteLocation);
-    } 
-    catch(ClassCastException e) {
-    }
+
 
     try {
       Knob b = (Knob)theControlEvent.getController();
