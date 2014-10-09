@@ -278,7 +278,7 @@ void oscEvent(OscMessage theOscMessage) {
   else if (theOscMessage.checkAddrPattern("/system/effect/airlockLight")) {
     int m = theOscMessage.get(0).intValue();
     if (serialEnabled) {
-      if (m == 0) {
+      if (m == 1) {
         serialPort.write("A");
       } 
       else {
