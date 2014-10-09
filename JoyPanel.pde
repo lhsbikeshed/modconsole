@@ -64,6 +64,10 @@ public class JoyPanel {
     }  
     else if (key == 'l') {
       translate.x = -1.0;
+    } else if (key == 'f'){
+      OscMessage myMessage = new OscMessage("/system/propulsion/afterburner");
+       oscP5.send(myMessage, myRemoteLocation);
+       println("afterbruner");
     }
   }
 

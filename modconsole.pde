@@ -1,3 +1,5 @@
+import processing.video.*;
+
 import processing.serial.*;
 
 import controlP5.*;
@@ -34,6 +36,11 @@ ShipStatePanel sPanel;
 JoyPanel jp;
 public boolean joystickEnabled = false;
 Joystick joy;
+
+//video playing stuff for comms
+FixedMovie movie;
+long movieTimer = 0;
+boolean waitingForMovieStart = false;
 
 void setup() {   
   size(1024, 900, P3D);
@@ -120,6 +127,17 @@ void draw() {
   // radarPanel.draw();
 
   jp.draw();
+  if(movie != null){
+  
+    if(movie.isPlaying() == false && movieTimer + 2000 < millis() && waitingForMovieStart ){
+      movie.play();
+      waitingForMovieStart = false;
+    }
+    if(movie.available()){
+      movie.read();
+    }
+  }
+  
 }
 
 void oscEvent(OscMessage theOscMessage) {
@@ -267,7 +285,28 @@ void oscEvent(OscMessage theOscMessage) {
         serialPort.write("a");
       }
     }
-  } 
+  }  
+  else if (theOscMessage.checkAddrPattern("/ship/comms/hangupCall")) {
+     // stop any playing videos
+     if(movie!=null){
+       println("stopping movie");
+       movie.stop();
+       waitingForMovieStart = false;
+       
+     }
+  } else if (theOscMessage.checkAddrPattern("/clientscreen/CommsStation/playVideo")) {
+    String file = theOscMessage.get(0).stringValue();
+    println("preparing for video " + file);
+    movie = new FixedMovie(this, file);
+  }
+  else if (theOscMessage.checkAddrPattern("/ship/comms/incomingCall")) {
+    println("playing pre-prepared video");
+    if(movie != null){
+      movieTimer = millis();
+      waitingForMovieStart = true;
+    }
+    
+  }   
   else {
     displayList[currentTab].oscMessage(theOscMessage);
   }

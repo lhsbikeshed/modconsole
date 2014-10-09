@@ -36,14 +36,14 @@ public class ShipStatePanel extends PanelSet {
   };
   /* toggle buttons and their osc messages */
   String[] toggleList = { 
-    "Reactor\r\nState", "Propulsion\r\nState", "JumpState", "ShipLight", "BlastShield", "Enable\r\nautopilot", 
+    "Reactor\r\nState", "Propulsion\r\nState", "JumpState", "Weapon State", "BlastShield", "Enable\r\nautopilot", 
     "Tactical power", "Engineer power", "pilot Power", "comms power", 
-    "Undercarriage", "Engineer\r\nFailures?", "Grappling\r\nHook\r\nArmed?"
+    "Undercarriage", "Engineer\r\nFailures?", "CablePuzzle", 
   };
   String[] toggleMapping = {
-    "/system/reactor/setstate", "/system/propulsion/state", "/system/jump/state", "/system/misc/extlight", "/system/misc/blastShield", "/system/control/controlState", 
+    "/system/reactor/setstate", "/system/propulsion/state", "/system/jump/state", "/system/targetting/changeWeaponState", "/system/misc/blastShield", "/system/control/controlState", 
     "/tactical/powerState", "/engineer/powerState", "/pilot/powerState", "/comms/powerState", "/system/undercarriage/state", "/system/powerManagement/failureState", 
-    "/control/grapplingHookState"
+    "/system/cablePuzzle/startPuzzle"
   };
   boolean[] defaultStates = {
     false, false, false, false, true, false, true, 
@@ -84,11 +84,11 @@ public class ShipStatePanel extends PanelSet {
             .setLabel("End Call")     
               ;
 
-    cp5.addBang("VideoCallAnswer")
+    cp5.addBang("AudioCall")
       .setPosition(150, 400)
         .setSize(40, 50)
           .setTriggerEvent(Bang.RELEASE)
-            .setLabel("ANSWER")     
+            .setLabel("AUDIOCALL")     
               ;
 
 
@@ -312,16 +312,17 @@ public class ShipStatePanel extends PanelSet {
        
         OscMessage msg = new OscMessage("/clientscreen/CommsStation/incomingCall");
 
-        msg.add(0);  //0 means incoming
+        msg.add(0);  //0 for video
         oscP5.send(msg, myRemoteLocation);
       } 
       else if (name.equals("VideoCallEnd")) {
         OscMessage msg = new OscMessage("/clientscreen/CommsStation/hangUp");
         oscP5.send(msg, myRemoteLocation);
-      } else if (name.equals("VideoCallAnswer")){
+        
+      } else if (name.equals("AudioCall")){
         OscMessage msg = new OscMessage("/clientscreen/CommsStation/incomingCall");
 
-        msg.add(1); //1 means it was a response, show the "connecting screen"
+        msg.add(1);   //for audio
         oscP5.send(msg, myRemoteLocation);
       }
     } 
