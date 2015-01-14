@@ -29,7 +29,7 @@ float hull = 100;
 Serial serialPort;
 
 String[] tabList = { 
-  "Launch", "Hyperspace", "Drop Scene", "Warzone Scene", "Landing", "Dead", "Nebula"
+  "Launch", "Hyperspace", "Drop Scene", "Warzone Scene", "Landing", "Dead", "Comet"
 };
 ShipStatePanel sPanel;
 
@@ -82,7 +82,7 @@ void setupTabs() {
   displayList[3] = new WarzoneControls(tabList[3], this, oscP5, cp5);
   displayList[4] = new LandingControls(tabList[4], this, oscP5, cp5);
   displayList[5] = new DeadControls(tabList[5], this, oscP5, cp5);
-  displayList[6] = new NebulaControls(tabList[6], this, oscP5, cp5);
+  displayList[6] = new CometControls(tabList[6], this, oscP5, cp5);
 
   for (int i = 0; i < tabList.length; i++) {
     cp5.addTab(tabList[i])

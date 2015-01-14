@@ -55,7 +55,7 @@ public class LaunchControl extends PanelSet {
               .moveTo(name)
                 ;
 
-    cp5.addToggle("DockingClamp")
+    cp5.addBang("DockingClamp")
       .setPosition(200, 300)
         .setSize(50, 50)
           .setLabel("Docking\r\nClamp")
@@ -172,8 +172,8 @@ public class LaunchControl extends PanelSet {
       oscP5.send(m, myRemoteLocation);
     } 
     else if (theControlEvent.getName().equals("DockingClamp")) {
-      OscMessage m  = new OscMessage("/system/misc/dockingClamp");
-      m.add( (int)theControlEvent.getValue() );
+      OscMessage m  = new OscMessage("/scene/launchland/releaseClamp");
+
       oscP5.send(m, myRemoteLocation);
     } 
     else if (theControlEvent.getName().equals("SpawnMissile")) {
