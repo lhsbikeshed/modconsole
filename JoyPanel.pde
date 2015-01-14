@@ -129,12 +129,12 @@ public class JoyPanel {
       } 
       else {
         if (lastMouse ) {
-          myMessage.add(0); 
-          myMessage.add(0);
-          myMessage.add(0);
-          myMessage.add(0);
-          myMessage.add(0);
-          myMessage.add(0);
+          myMessage.add(0f); 
+          myMessage.add(0f);
+          myMessage.add(0f);
+          myMessage.add(0f);
+          myMessage.add(0f);
+          myMessage.add(0f);
           oscP5.send(myMessage, myRemoteLocation);
         }
         lastMouse = false;
