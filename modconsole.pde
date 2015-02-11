@@ -86,6 +86,7 @@ void setupTabs() {
   PanelSet p5  = new LandingControls(tabList[4], this, oscP5, cp5);
   PanelSet p6  = new DeadControls(tabList[5], this, oscP5, cp5);
   PanelSet p7  = new CometControls(tabList[6], this, oscP5, cp5);
+  PanelSet p8  = new PreloadControls("boarding", this, oscP5, cp5);
 
   displayList.put(p1.sceneTag, p1);
   displayList.put(p2.sceneTag, p2);
@@ -94,6 +95,8 @@ void setupTabs() {
   displayList.put(p5.sceneTag, p5);
   displayList.put(p6.sceneTag, p6);
   displayList.put(p7.sceneTag, p7);
+    displayList.put(p8.sceneTag, p8);
+
 
   int i = 0;
   for (String key : displayList.keySet()) {
