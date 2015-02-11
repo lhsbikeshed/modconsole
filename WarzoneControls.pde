@@ -30,6 +30,7 @@ public class WarzoneControls extends PanelSet {
 
   public WarzoneControls(String name, PApplet parent, OscP5 p5, ControlP5 cp5) {
     super(name, parent, p5, cp5);
+    sceneTag = "warzone-landing";
   }
 
   public void draw() {
@@ -68,7 +69,7 @@ public class WarzoneControls extends PanelSet {
           .setSize(50, 50)
             .setTriggerEvent(Bang.RELEASE)
               .setLabel(bangList[i])  
-                .moveTo(name)   
+                .moveTo(sceneTag)   
                   ;
     }
     for (int i = 0; i < toggleList.length; i++) {
@@ -76,7 +77,7 @@ public class WarzoneControls extends PanelSet {
       cp5.addToggle(toggleList[i])
         .setPosition(140 + i * 75, 340)
           .setSize(50, 20)
-            .moveTo(name)
+            .moveTo(sceneTag)
               ;
     }
 
@@ -84,7 +85,7 @@ public class WarzoneControls extends PanelSet {
       .setPosition(430, 250)
         .setSize(50, 50)
           .setLabel("Set missile\r\nrate")
-            .moveTo(name);
+            .moveTo(sceneTag);
 
     missDiffKnob = cp5.addKnob("MissileRate")
       .setRange(1, 10)
@@ -98,7 +99,7 @@ public class WarzoneControls extends PanelSet {
                       .setColorBackground(color(0, 160, 100))
                         .setColorActive(color(255, 255, 0))
                           .setDragDirection(Knob.HORIZONTAL)
-                            .moveTo(name)   
+                            .moveTo(sceneTag)   
                               ;
   }
 

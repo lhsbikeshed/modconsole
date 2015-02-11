@@ -12,6 +12,7 @@ public class DeadControls extends PanelSet {
   
   public DeadControls(String name, PApplet parent, OscP5 p5, ControlP5 cp5){
     super(name, parent, p5, cp5);
+    sceneTag = "deadscene";
   }
   
   public void draw(){
@@ -28,7 +29,7 @@ public class DeadControls extends PanelSet {
          .setSize(50, 50)
          .setTriggerEvent(Bang.RELEASE)
          .setLabel(bangList[i])  
-         .moveTo(name)   
+         .moveTo(sceneTag)   
          ;
      }
      for(int i = 0; i < toggleList.length; i++){
@@ -36,7 +37,7 @@ public class DeadControls extends PanelSet {
        cp5.addToggle(toggleList[i])
          .setPosition(140 + i * 75,340)
          .setSize(50,20)
-         .moveTo(name)
+         .moveTo(sceneTag)
          ;
      }
   

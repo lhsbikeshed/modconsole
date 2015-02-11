@@ -13,6 +13,7 @@ public class CometControls extends PanelSet {
   
   public CometControls(String name, PApplet parent, OscP5 p5, ControlP5 cp5){
     super(name, parent, p5, cp5);
+    sceneTag = "comet-tunnel";
   }
   
   public void reset(){
@@ -37,7 +38,7 @@ public class CometControls extends PanelSet {
          .setSize(50, 50)
          .setTriggerEvent(Bang.RELEASE)
          .setLabel(bangList[i])  
-         .moveTo(name)
+         .moveTo(sceneTag)
   
          ;
      }

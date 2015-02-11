@@ -25,7 +25,7 @@ public class NebulaControls extends PanelSet {
 
   public NebulaControls(String name, PApplet parent, OscP5 p5, ControlP5 cp5) {
     super(name, parent, p5, cp5);
-
+    sceneTag = "nebula";
 
                               
      cp5.addNumberbox("Disk1")
@@ -35,7 +35,7 @@ public class NebulaControls extends PanelSet {
      .setValue(3)
      .setMax(20)
      .setMin(1)
-     .moveTo(name)   
+     .moveTo(sceneTag)   
      ;
      cp5.addNumberbox("Disk2")
      .setPosition(780,150)
@@ -44,7 +44,7 @@ public class NebulaControls extends PanelSet {
      .setValue(11)
      .setMax(20)
      .setMin(1)
-     .moveTo(name)   
+     .moveTo(sceneTag)   
      ;
      cp5.addNumberbox("Disk3")
      .setPosition(780,180)
@@ -53,14 +53,14 @@ public class NebulaControls extends PanelSet {
      .setValue(6)
      .setMax(20)
      .setMin(1)
-     .moveTo(name)   
+     .moveTo(sceneTag)   
      ;
      cp5.addBang("SetDisks")
      .setPosition(780, 220)
      .setSize(50, 20)
      .setTriggerEvent(Bang.RELEASE)
      .setLabel("Set Disks")
-     .moveTo(name)        
+     .moveTo(sceneTag)        
      ;
      
      cp5.addBang("InsertDisk")
@@ -68,7 +68,7 @@ public class NebulaControls extends PanelSet {
      .setSize(50, 20)
      .setTriggerEvent(Bang.RELEASE)
      .setLabel("Insert Disk")
-     .moveTo(name)        
+     .moveTo(sceneTag)        
      ;
      
   }

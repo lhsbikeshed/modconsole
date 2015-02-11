@@ -6,7 +6,7 @@ public class DropControls extends PanelSet {
   float[] temps = new float[6];
   String[] tempNames = {"Top Temp", "Bottom Temp", "Left Temp", "Right Temp", "Front Temp", "Back Temp"};
   
-  String[] bangList = { "RepairPanel", "AuthCode"};
+  String[] bangList = { "RepairPanel", "AuthCodeOK"};
   int[]    bangValue = { 1, 2};
   String[] bangMapping = {"/scene/drop/droppanelrepaired", "/scene/drop/droppanelrepaired"};
   
@@ -16,6 +16,7 @@ public class DropControls extends PanelSet {
   
   public DropControls(String name, PApplet parent, OscP5 p5, ControlP5 cp5){
     super(name, parent, p5, cp5);
+    sceneTag = "drop";
   }
   
   public void reset(){
@@ -63,7 +64,7 @@ public class DropControls extends PanelSet {
       .setPosition(12,50)
       .setColorValue(0xffffff00)
       .setFont(createFont("Georgia",15))
-      .moveTo(name)
+      .moveTo(sceneTag)
       ;
   //bang list
      for (int i = 0; i < bangList.length; i++){
@@ -72,7 +73,7 @@ public class DropControls extends PanelSet {
          .setSize(50, 50)
          .setTriggerEvent(Bang.RELEASE)
          .setLabel(bangList[i])  
-         .moveTo(name)
+         .moveTo(sceneTag)
   
          ;
      }

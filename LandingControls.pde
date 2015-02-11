@@ -11,6 +11,7 @@ public class LandingControls extends PanelSet {
   public void draw(){
     textFont(font,12);
     text("docking grabber can be used? : " + grabberState, 100,200);
+    sceneTag = "landing";
   }
   
   
@@ -21,7 +22,7 @@ public class LandingControls extends PanelSet {
       .setPosition(12,50)
       .setColorValue(0xffffff00)
       .setFont(createFont("Georgia",15))
-      .moveTo(name)
+      .moveTo(sceneTag)
       ;
       
     // front door open 
@@ -30,7 +31,7 @@ public class LandingControls extends PanelSet {
      .setSize(50, 50)
      .setTriggerEvent(Bang.RELEASE)
      .setLabel("Open Bay Doors")
-     .moveTo(name)
+     .moveTo(sceneTag)
      ;
      //gravity
      cp5.addToggle("Bay Gravity2")
@@ -38,7 +39,7 @@ public class LandingControls extends PanelSet {
      .setSize(50, 50)
      .setLabel("Bay Gravity")
      .setValue(1.0f)
-     .moveTo(name)
+     .moveTo(sceneTag)
      ;
      
      cp5.addBang("StartDock")
@@ -46,7 +47,7 @@ public class LandingControls extends PanelSet {
      .setSize(50, 50)
      .setLabel("Start docking\r\ncrane")
      .setValue(1.0f)
-     .moveTo(name)
+     .moveTo(sceneTag)
      ;
      
       cp5.addToggle("DockingClamp2")
@@ -54,31 +55,31 @@ public class LandingControls extends PanelSet {
      .setSize(50, 50)
      .setLabel("Docking\r\nClamp")
      .setValue(1.0f)
-     .moveTo(name);
+     .moveTo(sceneTag);
      
       cp5.addBang("GameWin")
      .setPosition(360, 300)
      .setSize(50, 50)
      .setLabel("Win Game")
-     .moveTo(name);
+     .moveTo(sceneTag);
      
       cp5.addToggle("DockingComp")
      .setPosition(40, 220)
      .setSize(50, 50)
      .setLabel("DockingComp")     
-     .moveTo(name);
+     .moveTo(sceneTag);
      
      cp5.addBang("AutoDock")
      .setPosition(120, 220)
      .setSize(50, 50)
      .setLabel("AutoDock")     
-     .moveTo(name);
+     .moveTo(sceneTag);
      
      cp5.addBang("StopAutoDock")
      .setPosition(180, 220)
      .setSize(50, 50)
      .setLabel("Stop\nAutoDock")     
-     .moveTo(name);
+     .moveTo(sceneTag);
   }
   
   

@@ -20,9 +20,13 @@ PFont font;
 
 NetAddress myRemoteLocation;                            
 String serverIP = "127.0.0.1";                           
-PanelSet[] displayList = new PanelSet[0];
+//PanelSet[] displayList = new PanelSet[0];
+
+HashMap<String, PanelSet> displayList = new HashMap<String, PanelSet>();
+
+
 RadarPanel radarPanel;
-int currentTab = 0;
+String currentTab = "launch";
 boolean ready = false;
 float hull = 100;
 
@@ -60,7 +64,6 @@ void setup() {
 
   sPanel = new ShipStatePanel("shipstate", this, oscP5, cp5 );
   sPanel.initGui();
-  displayList = new PanelSet[tabList.length];
   radarPanel = new RadarPanel();
   setupTabs();
   ready = true;
@@ -76,40 +79,53 @@ void setup() {
 
 
 void setupTabs() {  
-  displayList[0] = new LaunchControl(tabList[0], this, oscP5, cp5);
-  displayList[1] = new HyperControls(tabList[1], this, oscP5, cp5);
-  displayList[2] = new DropControls(tabList[2], this, oscP5, cp5);
-  displayList[3] = new WarzoneControls(tabList[3], this, oscP5, cp5);
-  displayList[4] = new LandingControls(tabList[4], this, oscP5, cp5);
-  displayList[5] = new DeadControls(tabList[5], this, oscP5, cp5);
-  displayList[6] = new CometControls(tabList[6], this, oscP5, cp5);
+  PanelSet p1 = new LaunchControl(tabList[0], this, oscP5, cp5);
+  PanelSet p2  = new HyperControls(tabList[1], this, oscP5, cp5);
+  PanelSet p3  = new DropControls(tabList[2], this, oscP5, cp5);
+  PanelSet p4  = new WarzoneControls(tabList[3], this, oscP5, cp5);
+  PanelSet p5  = new LandingControls(tabList[4], this, oscP5, cp5);
+  PanelSet p6  = new DeadControls(tabList[5], this, oscP5, cp5);
+  PanelSet p7  = new CometControls(tabList[6], this, oscP5, cp5);
 
-  for (int i = 0; i < tabList.length; i++) {
-    cp5.addTab(tabList[i])
+  displayList.put(p1.sceneTag, p1);
+  displayList.put(p2.sceneTag, p2);
+  displayList.put(p3.sceneTag, p3);
+  displayList.put(p4.sceneTag, p4);
+  displayList.put(p5.sceneTag, p5);
+  displayList.put(p6.sceneTag, p6);
+  displayList.put(p7.sceneTag, p7);
+
+  int i = 0;
+  for (String key : displayList.keySet()) {
+    
+    PanelSet p = displayList.get(key);
+    println("setting up tag:" + p.sceneTag);
+    cp5.addTab(p.sceneTag)
       .setColorBackground(color(0, 160, 100))
         .setColorLabel(color(255))
           .setColorActive(color(255, 128, 0))
-            .activateEvent(true);
-    cp5.getTab(tabList[i])
-      .setLabel(tabList[i])
-        .setId(i)
-          ;
+            .activateEvent(true)
+            .setLabel(p.getName())
+            .setId(i);
+            
 
-    displayList[i].initGui();
+    p.initGui();
+    i++;
   }
 
   cp5.getTab("default").setAlwaysActive( true);
 }
+
 
 void controlEvent(ControlEvent theControlEvent) {
   if (!ready) {
     return;
   }
   if (theControlEvent.isTab()) {
-    currentTab = theControlEvent.getTab().getId();
+    currentTab = theControlEvent.getTab().getName();
   } 
   else {
-    displayList[currentTab].controlEvent(theControlEvent);
+    displayList.get(currentTab).controlEvent(theControlEvent);
     sPanel.controlEvent(theControlEvent);
   }
 }
@@ -117,27 +133,28 @@ void controlEvent(ControlEvent theControlEvent) {
 void draw() {
   background(0, 0, 0);
   textFont(font, 30);
-  text(displayList[currentTab].name, 700, 40);
+  text(displayList.get(currentTab).name, 700, 40);
 
   stroke(255, 255, 255);
   line (0, 380, width, 380);
-
-  displayList[currentTab].draw();
+  PanelSet p = displayList.get(currentTab);
+  if(p != null){
+    p.draw();
+  }
   sPanel.draw();
   // radarPanel.draw();
 
   jp.draw();
-  if(movie != null){
-  
-    if(movie.isPlaying() == false && movieTimer + 2000 < millis() && waitingForMovieStart ){
+  if (movie != null) {
+
+    if (movie.isPlaying() == false && movieTimer + 2000 < millis() && waitingForMovieStart ) {
       movie.play();
       waitingForMovieStart = false;
     }
-    if(movie.available()){
+    if (movie.available()) {
       movie.read();
     }
   }
-  
 }
 
 void oscEvent(OscMessage theOscMessage) {
@@ -146,27 +163,29 @@ void oscEvent(OscMessage theOscMessage) {
   }
   // println(theOscMessage);
   if (theOscMessage.checkAddrPattern("/scene/change")==true) {
-    int val = theOscMessage.get(0).intValue();
-    if ( val >= 0 && val < displayList.length) {
-      displayList[currentTab].reset();
+    String val = theOscMessage.get(0).stringValue();
+
+    PanelSet p = displayList.get(val);
+    if(p != null){
+      displayList.get(currentTab).reset();
       currentTab = val;
-      cp5.getTab(displayList[currentTab].name).bringToFront();
+      cp5.getTab(displayList.get(currentTab).sceneTag).bringToFront();
     }
 
-    if (val == 2) { //  char[] lightMap = {'i', 'w', 'r', 'b'};
+    if (val.equals("drop")) { //  char[] lightMap = {'i', 'w', 'r', 'b'};
 
       setLightMode(2);
     } 
-    else if (val == 3) {
+    else if (val.equals("warzone-landing")) {
       setLightMode(0);
     } 
-    else if (val == 1) {
+    else if (val.equals("hyper1")) {
       setLightMode(1);
     } 
-    else if (val == 0) {
+    else if (val.equals( "preload")) {
       lightReset();
     } 
-    else if (val == 4) {
+    else if (val.equals("landing")) {
       setLightMode(0);
     } 
     else {
@@ -256,21 +275,23 @@ void oscEvent(OscMessage theOscMessage) {
   }
   else if (theOscMessage.checkAddrPattern("/system/effect/seatbeltLight")) {
     int mode = theOscMessage.get(0).intValue();
-    
-    if(serialEnabled){
-      if(mode == 1){
+
+    if (serialEnabled) {
+      if (mode == 1) {
         serialPort.write('S');
-      } else {
+      } 
+      else {
         serialPort.write('s');
       }
     }
   }
   else if (theOscMessage.checkAddrPattern("/system/effect/prayLight")) {
     int mode = theOscMessage.get(0).intValue();
-    if(serialEnabled){
-      if(mode == 1){
+    if (serialEnabled) {
+      if (mode == 1) {
         serialPort.write('P');
-      } else {
+      } 
+      else {
         serialPort.write('p');
       }
     }
@@ -287,30 +308,29 @@ void oscEvent(OscMessage theOscMessage) {
     }
   }  
   else if (theOscMessage.checkAddrPattern("/ship/comms/hangupCall")) {
-     // stop any playing videos
-     if(movie!=null){
-       println("stopping movie");
-       movie.stop();
-       waitingForMovieStart = false;
-       
-     }
-  } else if (theOscMessage.checkAddrPattern("/clientscreen/CommsStation/playVideo")) {
+    // stop any playing videos
+    if (movie!=null) {
+      println("stopping movie");
+      movie.stop();
+      waitingForMovieStart = false;
+    }
+  } 
+  else if (theOscMessage.checkAddrPattern("/clientscreen/CommsStation/playVideo")) {
     String file = theOscMessage.get(0).stringValue();
     println("preparing for video " + file);
     movie = new FixedMovie(this, file);
   }
   else if (theOscMessage.checkAddrPattern("/ship/comms/incomingCall")) {
     println("playing pre-prepared video");
-    if(movie != null){
+    if (movie != null) {
       movieTimer = millis();
       waitingForMovieStart = true;
     }
-    
   }   
   else {
-    displayList[currentTab].oscMessage(theOscMessage);
+    displayList.get(currentTab).oscMessage(theOscMessage);
   }
-  if(sPanel != null){
+  if (sPanel != null) {
     sPanel.oscMessage(theOscMessage);
   }
 }
@@ -374,8 +394,9 @@ void keyReleased() {
 }
 
 void resetScreens() {
-  for (PanelSet d : displayList) {
-    d.reset();
+  for (String key : displayList.keySet()) {
+    
+    displayList.get(key).reset();
   }
 }
 
@@ -386,12 +407,17 @@ public abstract class PanelSet {
   OscP5 oscP5;
   ControlP5 cp5;
   String name;
+  public String sceneTag = "";
 
   public PanelSet(String name, PApplet parent, OscP5 p5, ControlP5 cp5) {
     this.parent = parent;
     this.oscP5 = p5;
     this.name = name;
     this.cp5 = cp5;
+  }
+  
+  public String getName(){
+    return name;
   }
 
   public void reset() {

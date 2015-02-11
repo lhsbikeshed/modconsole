@@ -10,6 +10,7 @@ public class HyperControls extends PanelSet {
   
   public HyperControls(String name, PApplet parent, OscP5 p5, ControlP5 cp5){
     super(name, parent, p5, cp5);
+    sceneTag = "hyper1";
   }
   
   public void draw(){
@@ -43,7 +44,7 @@ public class HyperControls extends PanelSet {
       .setPosition(12,50)
       .setColorValue(0xffffff00)
       .setFont(createFont("Georgia",15))
-      .moveTo(name)
+      .moveTo(sceneTag)
       ;
   
   }

@@ -8,11 +8,13 @@ public class LaunchControl extends PanelSet {
 
   public LaunchControl(String name, PApplet parent, OscP5 p5, ControlP5 cp5) {
     super(name, parent, p5, cp5);
+     sceneTag = "launch";
   }
 
   public void draw() {
     textFont(font, 12);
     text("docking grabber can be used? : " + grabberState, 100, 200);
+   
   }
 
 
@@ -24,7 +26,7 @@ public class LaunchControl extends PanelSet {
         .setPosition(12, 50)
           .setColorValue(0xffffff00)
             .setFont(createFont("Georgia", 15))
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
 
 
@@ -36,7 +38,7 @@ public class LaunchControl extends PanelSet {
         .setSize(50, 50)
           .setTriggerEvent(Bang.RELEASE)
             .setLabel("Open Bay Doors")
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
     //gravity
     cp5.addToggle("Bay Gravity")
@@ -44,7 +46,7 @@ public class LaunchControl extends PanelSet {
         .setSize(50, 50)
           .setLabel("Bay Gravity")
             .setValue(1.0f)
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
 
     cp5.addBang("StartLaunch")
@@ -52,7 +54,7 @@ public class LaunchControl extends PanelSet {
         .setSize(50, 50)
           .setLabel("Start launch\r\nsequence")
             .setValue(1.0f)
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
 
     cp5.addBang("DockingClamp")
@@ -60,7 +62,7 @@ public class LaunchControl extends PanelSet {
         .setSize(50, 50)
           .setLabel("Docking\r\nClamp")
             .setValue(1.0f)
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
 
     cp5.addBang("LaunchOtherShip")
@@ -68,21 +70,21 @@ public class LaunchControl extends PanelSet {
         .setSize(50, 50)
           .setLabel("Prepare/launch\r\nother ship")
             .setValue(1.0f)
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
     cp5.addBang("otherShipToGate")
       .setPosition(280, 230)
         .setSize(50, 50)
           .setLabel("Fly other\r\nship to gate")
             .setValue(1.0f)
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
     cp5.addBang("otherShipHyperspace")
       .setPosition(360, 230)
         .setSize(50, 50)
           .setLabel("npc Hyperspace")
             .setValue(1.0f)
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
 
 
@@ -91,7 +93,7 @@ public class LaunchControl extends PanelSet {
         .setSize(50, 50)
           .setLabel("Spawn Training\r\nMissiles?")
             .setValue(0.0f)
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
 
     cp5.addToggle("HighlightGate")
@@ -99,7 +101,7 @@ public class LaunchControl extends PanelSet {
         .setSize(50, 50)
           .setLabel("Target\r\nGate?")
             .setValue(0.0f)
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
 
     /* player names */
@@ -108,21 +110,21 @@ public class LaunchControl extends PanelSet {
         .setSize(200, 30)
           .setFont(createFont("arial", 12))
             .setAutoClear(false)
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
     cp5.addTextfield("TacticalName")
       .setPosition(680, 130)
         .setSize(200, 30)
           .setFont(createFont("arial", 12))
             .setAutoClear(false)
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
     cp5.addTextfield("EngineerName")
       .setPosition(680, 180)
         .setSize(200, 30)
           .setFont(createFont("arial", 12))
             .setAutoClear(false)
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
 
     cp5.addTextfield("CaptainName")
@@ -130,14 +132,14 @@ public class LaunchControl extends PanelSet {
         .setSize(200, 30)
           .setFont(createFont("arial", 12))
             .setAutoClear(false)
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
     cp5.addTextfield("GmName")
       .setPosition(680, 280)
         .setSize(200, 30)
           .setFont(createFont("arial", 12))
             .setAutoClear(false)
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
 
     cp5.addBang("SetNames")
@@ -145,7 +147,7 @@ public class LaunchControl extends PanelSet {
         .setSize(50, 50)
           .setTriggerEvent(Bang.RELEASE)
             .setLabel("Set")
-              .moveTo(name)
+              .moveTo(sceneTag)
                 ;
   }
 
