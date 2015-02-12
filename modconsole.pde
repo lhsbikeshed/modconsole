@@ -83,7 +83,6 @@ void setupTabs() {
   PanelSet p2  = new HyperControls(tabList[1], this, oscP5, cp5);
   PanelSet p3  = new DropControls(tabList[2], this, oscP5, cp5);
   PanelSet p4  = new WarzoneControls(tabList[3], this, oscP5, cp5);
-  PanelSet p5  = new LandingControls(tabList[4], this, oscP5, cp5);
   PanelSet p6  = new DeadControls(tabList[5], this, oscP5, cp5);
   PanelSet p7  = new CometControls(tabList[6], this, oscP5, cp5);
   PanelSet p8  = new PreloadControls("boarding", this, oscP5, cp5);
@@ -92,7 +91,6 @@ void setupTabs() {
   displayList.put(p2.sceneTag, p2);
   displayList.put(p3.sceneTag, p3);
   displayList.put(p4.sceneTag, p4);
-  displayList.put(p5.sceneTag, p5);
   displayList.put(p6.sceneTag, p6);
   displayList.put(p7.sceneTag, p7);
     displayList.put(p8.sceneTag, p8);

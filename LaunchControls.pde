@@ -14,27 +14,20 @@ public class LaunchControl extends PanelSet {
   public void draw() {
     textFont(font, 12);
     text("docking grabber can be used? : " + grabberState, 100, 200);
-   
+    text("LAUNCH", 90, 60);
+    text("LAND", 350, 60);
+    line(329, 70, 329, 170);
   }
 
 
   public void initGui() {
-    cp5.addTextlabel("label")
-      .setText("SCRIPT ----------------\r\n1. captain tells the crew to start ship up and open blast door\r\n2. once started hit the 'start launch sequence' button, this puts them in the launch tube\r\n3. turn off gravity and release the clamp\r\n4. open the bay doors\r\n5.Autopilot the ship out of the base and park outside the door\r\n6.Wait for captain to ask for training missiles then turn them on\r\n7.When the training is done hit 'target gate'\r\nJOB DONE!")
-
-
-        .setPosition(12, 50)
-          .setColorValue(0xffffff00)
-            .setFont(createFont("Georgia", 15))
-              .moveTo(sceneTag)
-                ;
-
+   
 
     //controls for:
 
     // front door open 
     cp5.addBang("BayDoors")
-      .setPosition(280, 300)
+      .setPosition(220, 220)
         .setSize(50, 50)
           .setTriggerEvent(Bang.RELEASE)
             .setLabel("Open Bay Doors")
@@ -42,15 +35,17 @@ public class LaunchControl extends PanelSet {
                 ;
     //gravity
     cp5.addToggle("Bay Gravity")
-      .setPosition(120, 300)
+      .setPosition(290, 220)
         .setSize(50, 50)
           .setLabel("Bay Gravity")
             .setValue(1.0f)
               .moveTo(sceneTag)
                 ;
 
+    //LAUNCH
+
     cp5.addBang("StartLaunch")
-      .setPosition(40, 300)
+      .setPosition(40, 90)
         .setSize(50, 50)
           .setLabel("Start launch\r\nsequence")
             .setValue(1.0f)
@@ -58,51 +53,41 @@ public class LaunchControl extends PanelSet {
                 ;
 
     cp5.addBang("DockingClamp")
-      .setPosition(200, 300)
+      .setPosition(110, 90)
         .setSize(50, 50)
           .setLabel("Docking\r\nClamp")
             .setValue(1.0f)
               .moveTo(sceneTag)
                 ;
-
-    cp5.addBang("LaunchOtherShip")
-      .setPosition(200, 230)
+   cp5.addBang("LaunchOtherShip")
+      .setPosition(180, 90)
         .setSize(50, 50)
-          .setLabel("Prepare/launch\r\nother ship")
+          .setLabel("launch\r\nother ship")
             .setValue(1.0f)
               .moveTo(sceneTag)
                 ;
-    cp5.addBang("otherShipToGate")
-      .setPosition(280, 230)
-        .setSize(50, 50)
-          .setLabel("Fly other\r\nship to gate")
-            .setValue(1.0f)
-              .moveTo(sceneTag)
-                ;
-    cp5.addBang("otherShipHyperspace")
-      .setPosition(360, 230)
-        .setSize(50, 50)
-          .setLabel("npc Hyperspace")
-            .setValue(1.0f)
-              .moveTo(sceneTag)
-                ;
-
-
+   
     cp5.addToggle("SpawnMissile")
-      .setPosition(360, 300)
+      .setPosition(250, 90)
         .setSize(50, 50)
           .setLabel("Spawn Training\r\nMissiles?")
             .setValue(0.0f)
               .moveTo(sceneTag)
                 ;
-
-    cp5.addToggle("HighlightGate")
-      .setPosition(440, 300)
-        .setSize(50, 50)
-          .setLabel("Target\r\nGate?")
-            .setValue(0.0f)
-              .moveTo(sceneTag)
-                ;
+                
+    //landing
+    
+     cp5.addBang("GameWin")
+     .setPosition(350, 90)
+     .setSize(50, 50)
+     .setLabel("Win Game")
+     .moveTo(sceneTag);
+     
+      cp5.addToggle("DockingComp")
+     .setPosition(410, 90)
+     .setSize(50, 50)
+     .setLabel("DockingComp")     
+     .moveTo(sceneTag);
 
     /* player names */
     cp5.addTextfield("PilotName")
@@ -149,6 +134,9 @@ public class LaunchControl extends PanelSet {
             .setLabel("Set")
               .moveTo(sceneTag)
                 ;
+                
+                
+        
   }
 
   public void oscMessage(OscMessage msg) {
@@ -205,8 +193,14 @@ public class LaunchControl extends PanelSet {
       OscMessage m  = new OscMessage("/scene/launchland/otherShipHyperspace");
 
       oscP5.send(m, myRemoteLocation);
-    } 
-    else if (theControlEvent.getName().equals("SetNames")) {
+    } else if(theControlEvent.getName().equals("GameWin")){
+      OscMessage m  = new OscMessage("/game/gameWin");
+      oscP5.send(m, myRemoteLocation);
+    } else if(theControlEvent.getName().equals("DockingComp")){
+      OscMessage m  = new OscMessage("/scene/launchland/dockingCompState");
+      m.add( (int)theControlEvent.getValue() );
+      oscP5.send(m, myRemoteLocation);
+    } else if (theControlEvent.getName().equals("SetNames")) {
       OscMessage m = new OscMessage("/game/setNames");
       m.add(cp5.get(Textfield.class, "PilotName").getText());
       m.add(cp5.get(Textfield.class, "TacticalName").getText());
